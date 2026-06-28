@@ -3,7 +3,7 @@
 
 const PLATFORM = "XHamster";
 const BASE_URL = "https://xhamster.com";
-const API_URL = "https://xhamster.com/api/v1";
+const API_URL = "https://api.xhamster.com";
 
 // Required: Plugin metadata object
 const source = {
