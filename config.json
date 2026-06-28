@@ -3,7 +3,7 @@
   "description": "XHamster video source for Grayjay",
   "author": "Your Name",
   "authorUrl": "https://your-site.com",
-  "sourceUrl": "https://github.com/Kermitropolis2424/grayjay-plugin-xhamster/blob/main/config.json",
+  "sourceUrl": "https://raw.githubusercontent.com/Kermitropolis2424/grayjay-plugin-xhamster/refs/heads/main/config.json",
   "repositoryUrl": "https://github.com/Kermitropolis2424/grayjay-plugin-xhamster",
   "scriptUrl": "./script.js",
   "version": 1,
