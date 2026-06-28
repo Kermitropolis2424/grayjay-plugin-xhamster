@@ -4,10 +4,10 @@
 const PLATFORM = "XHamster";
 const BASE_URL = "https://xhamster.com";
 const API_URL = "https://api.xhamster.com";
-const PLUGIN_ID = "74829387479293857"; // Added to match config.json
+const PLUGIN_ID = "74829387479293857"; 
 
-// Required: Plugin metadata object
-const source = {
+// Renamed from 'source' to 'pluginConfig' to avoid the syntax error
+const pluginConfig = {
     name: PLATFORM,
     version: "1.0.0",
     
@@ -241,5 +241,6 @@ function parseDuration(durationStr) {
     return seconds;
 }
 
-// Export the source object
-source;
+// Export the object so Grayjay can read it
+pluginConfig;
+        
