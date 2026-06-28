@@ -5,7 +5,7 @@
   "authorUrl": "https://your-site.com",
   "sourceUrl": "https://raw.githubusercontent.com/Kermitropolis2424/grayjay-plugin-xhamster/refs/heads/main/config.json",
   "repositoryUrl": "https://github.com/Kermitropolis2424/grayjay-plugin-xhamster",
-  "scriptUrl": "./script.js",
+  "scriptUrl": "https://raw.githubusercontent.com/Kermitropolis2424/grayjay-plugin-xhamster/refs/heads/main/script.js",
   "version": 1,
   "iconUrl": "./icon.png",
   "id": "74829387479293857",
