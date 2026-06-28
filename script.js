@@ -4,6 +4,7 @@
 const PLATFORM = "XHamster";
 const BASE_URL = "https://xhamster.com";
 const API_URL = "https://api.xhamster.com";
+const PLUGIN_ID = "74829387479293857"; // Added to match config.json
 
 // Required: Plugin metadata object
 const source = {
@@ -56,6 +57,7 @@ const source = {
 
 // Helper: Fetch and parse video listings
 function getContent(options) {
+    // Uses Grayjay's native http package
     const res = http.GET(options.url, {}, true);
     
     if (!res.isOk) {
@@ -66,16 +68,6 @@ function getContent(options) {
     const videos = [];
     const pager = { hasMore: false, nextPage: null };
     
-    // Parse video items from HTML
-    // XHamster uses various class names for video items
-    const videoRegex = /<a[^>]*href="(\/videos\/[^"]+)"[^>]*>[\s\S]*?<img[^>]*src="([^"]+)"[^>]*>[\s\S]*?<div[^>]*class="[^"]*video-thumb-info[^"]*"[^>]*>[\s\S]*?<a[^>]*>([^<]+)<\/a>[\s\S]*?<\/a>/g;
-    
-    // Alternative pattern for different XHamster layouts
-    const videoRegex2 = /"videoId":\s*(\d+)[\s\S]*?"title":\s*"([^"]+)"[\s\S]*?"thumb":\s*"([^"]+)"[\s\S]*?"link":\s*"([^"]+)"/g;
-    
-    let match;
-    let count = 0;
-    
     // Try JSON-LD or embedded data first
     const jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
     if (jsonLdMatch) {
@@ -85,16 +77,16 @@ function getContent(options) {
                 jsonData.itemListElement.forEach(item => {
                     if (item.item && videos.length < 20) {
                         videos.push(new PlatformVideo({
-                            id: extractVideoId(item.item.url),
+                            id: new PlatformID(PLATFORM, extractVideoId(item.item.url), PLUGIN_ID),
                             name: item.item.name,
                             thumbnails: new Thumbnails([new Thumbnail(item.item.thumbnail, 0)]),
                             author: new PlatformAuthorLink(
-                                new PlatformID(PLATFORM, "xhamster", undefined),
+                                new PlatformID(PLATFORM, "xhamster", PLUGIN_ID),
                                 "XHamster",
                                 BASE_URL,
                                 ""
                             ),
-                            datetime: Date.now(),
+                            datetime: Math.floor(Date.now() / 1000),
                             url: item.item.url.startsWith("http") ? item.item.url : BASE_URL + item.item.url,
                             duration: 0
                         }));
@@ -106,7 +98,9 @@ function getContent(options) {
     
     // Parse HTML for video items
     const thumbRegex = /<div[^>]*class="[^"]*thumb-list__item[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*title="([^"]*)"[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>[\s\S]*?<span[^>]*class="[^"]*thumb-image-container__duration[^"]*"[^>]*>([^<]*)<\/span>[\s\S]*?<\/div>/g;
-    
+    let match;
+    let count = 0;
+
     while ((match = thumbRegex.exec(html)) !== null && videos.length < 20) {
         const url = match[1].startsWith("http") ? match[1] : BASE_URL + match[1];
         const title = match[2].trim();
@@ -114,16 +108,16 @@ function getContent(options) {
         const durationStr = match[4].trim();
         
         videos.push(new PlatformVideo({
-            id: extractVideoId(url),
+            id: new PlatformID(PLATFORM, extractVideoId(url), PLUGIN_ID),
             name: title,
             thumbnails: new Thumbnails([new Thumbnail(thumbnail, 0)]),
             author: new PlatformAuthorLink(
-                new PlatformID(PLATFORM, "xhamster", undefined),
+                new PlatformID(PLATFORM, "xhamster", PLUGIN_ID),
                 "XHamster",
                 BASE_URL,
                 ""
             ),
-            datetime: Date.now(),
+            datetime: Math.floor(Date.now() / 1000),
             url: url,
             duration: parseDuration(durationStr)
         }));
@@ -201,16 +195,16 @@ function fetchVideoDetails(url) {
     
     // Create video details object
     const videoDetails = new PlatformVideoDetails({
-        id: extractVideoId(url),
+        id: new PlatformID(PLATFORM, extractVideoId(url), PLUGIN_ID),
         name: title,
         thumbnails: new Thumbnails([new Thumbnail(thumbnail, 0)]),
         author: new PlatformAuthorLink(
-            new PlatformID(PLATFORM, authorName, undefined),
+            new PlatformID(PLATFORM, authorName, PLUGIN_ID),
             authorName,
             BASE_URL,
             ""
         ),
-        datetime: Date.now(),
+        datetime: Math.floor(Date.now() / 1000),
         description: "",
         url: url,
         duration: duration,
@@ -246,17 +240,6 @@ function parseDuration(durationStr) {
     
     return seconds;
 }
-
-// Helper: Make HTTP request
-const http = {
-    GET: function(url, headers, useProxy) {
-        // Use Grayjay's built-in HTTP package
-        return Http.GET(url, headers, useProxy);
-    },
-    POST: function(url, body, headers, useProxy) {
-        return Http.POST(url, body, headers, useProxy);
-    }
-};
 
 // Export the source object
 source;
