@@ -1,56 +1,20 @@
 {
-  "name": "xhamster",
-  "platformUrl": "https://xhamster.com",
-  "description": "xhamster",
-  "author": "Kermitropolis2424",
-  "authorUrl": "",
-  "sourceUrl": "grayjay://plugin/https://github.com/Kermitropolis2424/grayjay-plugin-xhamster/releases/latest/download/config.json",
+  "name": "XHamster",
+  "description": "XHamster video source for Grayjay",
+  "author": "Your Name",
+  "authorUrl": "https://your-site.com",
+  "sourceUrl": "https://your-site.com/xhamster/config.json",
+  "repositoryUrl": "https://github.com/yourusername/grayjay-xhamster",
   "scriptUrl": "./script.js",
-  "repositoryUrl": "grayjay://plugin/https://github.com/Kermitropolis2424/grayjay-plugin-xhamster",
   "version": 1,
-  "iconUrl": "https://static-ah.xhcdn.com/xh-desktop/images/favicon/favicon-v2-256x256.ico?v=1",
-  "id": "e28defae-0cd6-477e-a1b4-6c1f58579f0d",
+  "iconUrl": "./icon.png",
+  "id": "unique-uuid-here",
   "scriptSignature": "",
   "scriptPublicKey": "",
-  "packages": [
-    "Http"
-  ],
+  "packages": ["Http"],
   "allowEval": false,
-  "allowAllHttpHeaderAccess": false,
   "allowUrls": [
-    "xhamster.com",
-    ".xhamster.com",
-    "api.xhamster.com",
-    ".api.xhamster.com"
-  ],
-  "supportedClaimTypes": [
-    27
-  ],
-  "settings": [
-    {
-      "variable": "baseUrl",
-      "name": "API Server",
-      "description": "API server endpoint",
-      "type": "Dropdown",
-      "default": "https://api.xhamster.com",
-      "options": [
-        "https://api.xhamster.com"
-      ]
-    },
-    {
-      "variable": "enableDebugLogging",
-      "name": "Enable Debug Logging",
-      "description": "Enable detailed logging for debugging purposes",
-      "type": "Boolean",
-      "default": "false"
-    }
-  ],
-  "changelog": {
-    "1": [
-      "Initial release"
-    ]
-  },
-  "constants": {
-    "defaultHeaders": {}
-  }
+    "https://xhamster.com",
+    "https://*.xhamster.com"
+  ]
 }
